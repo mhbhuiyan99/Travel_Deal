@@ -13,15 +13,12 @@ def create_deal(data):
     try:
         db.session.add(deal)
         db.session.commit()
-
-    except Exception:
+        return deal
+    except Exception as e:
         db.session.rollback()
+        raise RuntimeError("Database insertion failed") from e
 
-        return jsonify({
-            "error": "Failed to create deal"
-        }), 500
-
-    return deal
+    
 
 def get_all_deals():
     deals = TravelDeal.query.all()
@@ -29,4 +26,6 @@ def get_all_deals():
 
 def get_deal_by_id(deal_id):
     deal = TravelDeal.query.get(deal_id)
+    if not deal:
+        return None
     return deal.to_dict()

@@ -1,7 +1,7 @@
 from database.db import db
 
 class TravelDeal(db.Model):
-    __tablename = "travel_deals"
+    __tablename__ = "travel_deals"
 
     id = db.Column(
         db.Integer,

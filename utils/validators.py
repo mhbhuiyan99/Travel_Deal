@@ -15,20 +15,28 @@ def validate_deal(data):
         if field not in data:
             return f"{field} is required"
 
-    if not data["destination"].strip():
-        return "Destination cannot be empty"
+    if not isinstance(data["destination"], str) or not data["destination"].strip():
+        return "Destination must be a non-empty string"
 
-    if not data["platform"].strip():
-        return "Platform cannot be empty"
+    if not isinstance(data["platform"], str) or not data["platform"].strip():
+        return "Platform must be a non-empty string"
 
-    if not data["travel_type"].strip():
-        return "Travel type cannot be empty"
+    if not isinstance(data["travel_type"], str) or not data["travel_type"].strip():
+        return "Travel type must be a non-empty string"
 
-    if data["price"] <= 0:
-        return "Price must be greater than 0"
+    try:
+        price = float(data["price"])
+        if price <= 0:
+            return "Price must be greater than 0"
+    except (ValueError, TypeError):
+        return "Price must be a valid number"
 
-    if data["rating"] < 1 or data["rating"] > 5:
-        return "Rating must be between 1 and 5"
+    try:
+        rating = float(data["rating"])
+        if rating < 1 or rating > 5:
+            return "Rating must be between 1 and 5"
+    except (ValueError, TypeError):
+        return "Rating must be a valid number"
 
     valid_travel_types = [
         "Budget",
