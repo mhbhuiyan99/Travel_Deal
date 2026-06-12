@@ -1,3 +1,9 @@
-.venv
+.venv/
+venv
+
 __pycache__/
 *.pyc
+
+travel_deals.db
+*.db
+.DS_Store

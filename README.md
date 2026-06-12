@@ -127,13 +127,11 @@ The application will start running locally at `http://127.0.0.1:5000/`. The data
 
 ---
 
-## Postman Collection
 
-You can access and import the workspace testing endpoints collection directly via the following link:
 
-[https://mojammelhaquebhuiyan.postman.co/workspace/Mojammel-Haque-Bhuiyan's-Worksp~ab05c571-6053-4a06-8fb8-855de37e8fbc/collection/43992633-a8e1c16d-b565-46be-80a4-2ea8a51ddbda?action=share&creator=43992633](https://mojammelhaquebhuiyan.postman.co/workspace/Mojammel-Haque-Bhuiyan's-Worksp~ab05c571-6053-4a06-8fb8-855de37e8fbc/collection/43992633-a8e1c16d-b565-46be-80a4-2ea8a51ddbda?action=share&creator=43992633)
 
 ## Project Structure
+```
 project/
 ├── app.py               # Application Factory & entry point
 ├── config.py            # Environment & app configuration constants
@@ -148,3 +146,4 @@ project/
 │   └── validators.py    # Type-safe request input constraints validation
 ├── requirements.txt     # Locked production dependencies
 └── README.md            # System installation and architectural blueprint
+```

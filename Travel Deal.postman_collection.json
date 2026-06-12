@@ -1,0 +1,97 @@
+{
+	"info": {
+		"_postman_id": "a8e1c16d-b565-46be-80a4-2ea8a51ddbda",
+		"name": "Travel Deal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43992633",
+		"_collection_link": "https://mojammelhaquebhuiyan.postman.co/workspace/Mojammel-Haque-Bhuiyan's-Worksp~ab05c571-6053-4a06-8fb8-855de37e8fbc/collection/43992633-a8e1c16d-b565-46be-80a4-2ea8a51ddbda?action=share&source=collection_link&creator=43992633"
+	},
+	"item": [
+		{
+			"name": "Create Deals",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"destination\": \"Dubai\",\n\"price\": 5000,\n\"platform\": \"Booking\",\n\"rating\": 4.5,\n\"travel_type\": \"Luxury\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/deals",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"deals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Deals",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/deals/8",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"deals",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Deals",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"destination\": \"Bangladesh\",\n    \"price\": 3000,\n    \"platform\": \"Booking\",\n    \"rating\": 4.5,\n    \"travel_type\": \"Family\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/deals",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"deals"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
