@@ -10,7 +10,18 @@ def create_deal(data):
         travel_type = data["travel_type"]
     )
 
-    db.session.add(deal)
-    db.session.commit()
-    
+    try:
+        db.session.add(deal)
+        db.session.commit()
+
+    except Exception:
+        db.session.rollback()
+
+        return jsonify({
+            "error": "Failed to create deal"
+        }), 500
+
     return deal
+
+def get_deals():
+    deals = 
