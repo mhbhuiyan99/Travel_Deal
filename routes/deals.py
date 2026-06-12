@@ -4,7 +4,11 @@ from flask import jsonify
 
 from utils.validators import validate_deal
 
-from services.travel_service import create_deal, get_all_deals
+from services.travel_service import (
+    create_deal, 
+    get_all_deals,
+    get_deal_by_id
+)
 
 
 
@@ -44,3 +48,16 @@ def get_deals():
         "count": len(deals),
         "data": deals
     }), 200
+
+@deals_bp.route("/<int:deal_id>", methods=["GET"])
+def get_deal(deal_id):
+    deal = get_deal_by_id(deal_id)
+
+    if deal is None:
+        return jsonify({
+            "error": "Deal not found"
+        }), 404
+
+    return jsonify(
+        deal
+    ), 200

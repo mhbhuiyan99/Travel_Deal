@@ -26,3 +26,7 @@ def create_deal(data):
 def get_all_deals():
     deals = TravelDeal.query.all()
     return [deal.to_dict() for deal in deals]
+
+def get_deal_by_id(deal_id):
+    deal = TravelDeal.query.get(deal_id)
+    return deal.to_dict()
