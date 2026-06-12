@@ -127,7 +127,16 @@ The application will start running locally at `http://127.0.0.1:5000/`. The data
 
 ---
 
+## Postman Collection
 
+**Collection File:** [Travel Deal Management API.postman_collection.json](https://github.com/mhbhuiyan99/Travel_Deal/blob/main/Travel%20Deal.postman_collection.json)
+
+### Import into Postman
+1. Open Postman.
+2. Click Import.
+3. Select Upload Files.
+4. Choose the downloaded collection file.
+5. Import and start testing the APIs.
 
 
 ## Project Structure
