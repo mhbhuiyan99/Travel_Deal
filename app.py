@@ -2,6 +2,7 @@ from flask import Flask
 from config import Config
 from database.db import db
 from routes.deals import deals_bp
+from database.models import TravelDeal
 
 def create_app():
     """
@@ -18,6 +19,10 @@ def create_app():
 
     # Initialize DB
     db.init_app(app)
+
+    # Create tables
+    with app.app_context():
+        db.create_all()
 
     # Register Blueprint
         # Blueprints in Flask help you organize your application into modular, reusable components. 
