@@ -12,7 +12,6 @@ def create_app():
     app = Flask(__name__)
 
     # Load Config
-        # Flask reads all UPPERCASE attributes from the object and stores them in app.config.
     app.config.from_object(
         Config
     )
@@ -25,8 +24,6 @@ def create_app():
         db.create_all()
 
     # Register Blueprint
-        # Blueprints in Flask help you organize your application into modular, reusable components. 
-        # They let you group related routes, templates, and static files together
     app.register_blueprint(
         deals_bp,
         url_prefix="/deals"

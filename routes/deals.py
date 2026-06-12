@@ -1,8 +1,12 @@
 from flask import Blueprint
 from flask import request
 from flask import jsonify
-from services.travel_service import create_deal
+
 from utils.validators import validate_deal
+
+from services.travel_service import create_deal, get_all_deals
+
+
 
 deals_bp = Blueprint(
     "deals",
@@ -32,3 +36,11 @@ def add_deals():
             "travel_type": deal.travel_type
         }
     }), 201
+
+@deals_bp.route("/", methods=["GET"])
+def get_deals():
+    deals = get_all_deals()
+    return jsonify({
+        "count": len(deals),
+        "data": deals
+    }), 200
