@@ -20,7 +20,10 @@ from services.travel_service import (
     get_sorted_deals
 )
 
-
+from services.recent_service import ( 
+    add_recent_view,
+    get_recent_deals
+)
 
 deals_bp = Blueprint(
     "deals",
@@ -33,6 +36,8 @@ def add_deals():
 
     error = validate_deal(data)
     if error:
+        logging.warning(error)
+
         return jsonify({
             "error": error
         }), 400
@@ -61,6 +66,8 @@ def get_deal(deal_id):
             "error": "Deal not found"
         }), 404
 
+    add_recent_view(deal_id)
+
     return jsonify(
         deal
     ), 200
@@ -75,7 +82,7 @@ def search_deals():
 
     error = validate_search(filters)
     if error:
-        logging.Warning("Search request without parameters")
+        logging.Warning(error)
 
         return jsonify({
             "error": error
@@ -97,10 +104,17 @@ def filter_deals():
 
     error = validate_filter(min_price, max_price)
 
+
     if error:
+        logging.warning(error)
+
         return jsonify({
             "error": error
         }), 400
+    
+    logging.info(
+        f"Filter request: min_price={min_price}, max_price={max_price}"
+    )
 
     deals = filter_by_price(min_price, max_price)
 
@@ -117,11 +131,27 @@ def sort_deals():
     error = validate_sort(sort_by, order)
 
     if error:
+        logging.warning(error)
+
         return jsonify({
             "error": error
         }), 400
 
+    logging.info(
+        f"Sort request: sort_by={sort_by}, order={order}"
+    )
+
     deals = get_sorted_deals(order)
+
+    return jsonify({
+        "count": len(deals),
+        "deals": deals
+    }), 200
+
+@deals_bp.route("/recent", methods=["GET"])
+def recent_deals():
+
+    deals = get_recent_deals()
 
     return jsonify({
         "count": len(deals),

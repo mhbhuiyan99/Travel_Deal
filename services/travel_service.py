@@ -3,6 +3,7 @@ from database.models import TravelDeal
 from sqlalchemy import select
 from sqlalchemy import asc
 from sqlalchemy import desc
+import logging
 
 def create_deal(data):
     """
@@ -28,6 +29,9 @@ def create_deal(data):
         db.session.commit()
         return deal.to_dict()
     except Exception as e:
+        logging.error(
+            f"Database insertion failed: {e}"
+        )
         db.session.rollback()
         raise RuntimeError("Database insertion failed") from e
   

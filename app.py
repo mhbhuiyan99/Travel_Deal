@@ -3,6 +3,7 @@ from config import Config
 from database.db import db
 from routes.deals import deals_bp
 from database.models import TravelDeal
+import logging
 
 def create_app():
     """
@@ -39,6 +40,12 @@ def create_app():
         return {
             "message": "Welcome to Travel Deal"
         }
+
+    logging.basicConfig(
+        filename="app.log",
+        level=logging.INFO,
+        format="%(asctime)s - %(levelname)s - %(message)s"
+    )
 
     return app
 

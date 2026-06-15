@@ -42,3 +42,19 @@ class TravelDeal(db.Model):
             "rating": self.rating,
             "travel_type": self.travel_type
         }
+
+class RecentView(db.Model):
+    __tablename__ = "recent_views"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    deal_id = db.Column(
+        db.Integer,
+        db.ForeignKey("travel_deals.id"),
+        nullable=False
+    )
+
+    viewed_at = db.Column(
+        db.DateTime,
+        server_default=db.func.now()
+    )
