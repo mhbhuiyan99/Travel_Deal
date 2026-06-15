@@ -323,43 +323,6 @@ or
 
 ---
 
-### cURL Example
-
-```bash
-curl -X POST http://127.0.0.1:5000/deals \
--H "Content-Type: application/json" \
--d '{
-  "destination": "Dubai",
-  "price": 5000,
-  "platform": "Booking",
-  "rating": 4.5,
-  "travel_type": "Luxury"
-}'
-```
-```bash
-curl "http://127.0.0.1:5000/deals"
-```
-
-```bash
-curl "http://127.0.0.1:5000/deals/1"
-```
-
-```bash
-curl "http://127.0.0.1:5000/deals/search?destination=dubai"
-```
-
-```bash
-curl "http://127.0.0.1:5000/deals/filter?min_price=1000&max_price=5000"
-```
-
-```bash
-curl "http://127.0.0.1:5000/deals/sort?sort_by=price&order=asc"
-```
-
-```bash
-curl "http://127.0.0.1:5000/deals/recent"
-```
-
 ### Search Deals
 
 #### GET /deals/search
@@ -435,6 +398,44 @@ Example
 GET /deals/recent
 ```
 
+---
+
+### cURL Example
+
+```bash
+curl -X POST http://127.0.0.1:5000/deals \
+-H "Content-Type: application/json" \
+-d '{
+  "destination": "Dubai",
+  "price": 5000,
+  "platform": "Booking",
+  "rating": 4.5,
+  "travel_type": "Luxury"
+}'
+```
+```bash
+curl "http://127.0.0.1:5000/deals
+```
+
+```bash
+curl "http://127.0.0.1:5000/deals/1"
+```
+
+```bash
+curl "http://127.0.0.1:5000/deals/search?destination=dubai"
+```
+
+```bash
+curl "http://127.0.0.1:5000/deals/filter?min_price=1000&max_price=5000"
+```
+
+```bash
+curl "http://127.0.0.1:5000/deals/sort?sort_by=price&order=asc"
+```
+
+```bash
+curl "http://127.0.0.1:5000/deals/recent"
+```
 ---
 
 ## Validation Rules
