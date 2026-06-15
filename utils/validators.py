@@ -78,3 +78,14 @@ def validate_filter(min_price, max_price):
         return "Maximum price cannot be smaller than minimum price"
 
     return None
+
+def validate_sort(sort_by, order):
+    allowed_orders = ["asc", "desc"]
+
+    if sort_by != "price":
+        return "Can only sort by 'price'"
+    
+    if order is not None and order not in allowed_orders:
+        return "Order must be either 'asc' or 'desc'"
+
+    return None

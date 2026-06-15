@@ -1,6 +1,8 @@
 from database.db import db
 from database.models import TravelDeal
 from sqlalchemy import select
+from sqlalchemy import asc
+from sqlalchemy import desc
 
 def create_deal(data):
     deal = TravelDeal(
@@ -33,34 +35,46 @@ def get_deal_by_id(deal_id):
 
 
 def search_by(filters):
-    stmt = select(TravelDeal)
+    query = select(TravelDeal)
 
     if filters.get('destination'):
-        stmt = stmt.where(TravelDeal.destination.ilike(f"%{filters['destination']}%"))
+        query = query.where(TravelDeal.destination.ilike(f"%{filters['destination']}%"))
     
     if filters.get('travel_type'):
-        stmt = stmt.where(TravelDeal.travel_type.ilike(f"%{filters['travel_type']}%"))
+        query = query.where(TravelDeal.travel_type.ilike(f"%{filters['travel_type']}%"))
 
     if filters.get('platform'):
-        stmt = stmt.where(TravelDeal.platform.ilike(f"%{filters['platform']}%"))
+        query = query.where(TravelDeal.platform.ilike(f"%{filters['platform']}%"))
 
-    result = db.session.execute(stmt).scalars().all()
+    result = db.session.execute(query).scalars().all()
 
     return [deal.to_dict() for deal in result]
 
 def filter_by_price(min_price = None, max_price = None):
-    stmt = select(TravelDeal)
+    query = select(TravelDeal)
 
     if min_price is not None:
-        stmt = stmt.where(
+        query = query.where(
             TravelDeal.price >= float(min_price)
         )
 
     if max_price is not None:
-        stmt = stmt.where(
+        query = query.where(
             TravelDeal.price <= float(max_price)
         )
 
-    deals = db.session.execute(stmt).scalars().all()
+    deals = db.session.execute(query).scalars().all()
+
+    return [deal.to_dict() for deal in deals]
+
+def get_sorted_deals(order):
+    query = select(TravelDeal)
+
+    if order.lower() == 'desc':
+        query = query.order_by(desc(TravelDeal.price))
+    else:
+        query = query.order_by(asc(TravelDeal.price))
+
+    deals = db.session.execute(query).scalars().all()
 
     return [deal.to_dict() for deal in deals]

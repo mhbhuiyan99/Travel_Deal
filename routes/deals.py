@@ -7,7 +7,8 @@ import logging
 from utils.validators import (
     validate_deal,
     validate_search,
-    validate_filter
+    validate_filter,
+    validate_sort
 )
 
 from services.travel_service import (
@@ -15,7 +16,8 @@ from services.travel_service import (
     get_all_deals,
     get_deal_by_id,
     search_by,
-    filter_by_price
+    filter_by_price,
+    get_sorted_deals
 )
 
 
@@ -112,4 +114,23 @@ def filter_deals():
     return jsonify({
         "count": len(deals),
         "data": deals
+    }), 200
+
+@deals_bp.route("/sort", methods=["GET"])
+def sort_deals():
+    sort_by = request.args.get("sort_by")
+    order = request.args.get("order", "asc") #  default 'asc'
+
+    error = validate_sort(sort_by, order)
+
+    if error:
+        return jsonify({
+            "error": error
+        }), 400
+
+    deals = get_sorted_deals(order)
+
+    return jsonify({
+        "count": len(deals),
+        "deals": deals
     }), 200
