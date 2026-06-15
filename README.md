@@ -6,25 +6,20 @@ A RESTful API built with **Python**, **Flask**, **SQLAlchemy**, and **SQLite** f
 
 ## Features
 
-### Part 01
-
-* Add a travel deal
-* Get all travel deals
-* Get a single travel deal
+* Create travel deals
+* View all travel deals
+* View a single travel deal
+* Search deals by destination, platform, or travel type
+* Filter deals using minimum and maximum price
+* Sort deals by price (ascending or descending)
+* Track recently viewed deals
 * Input validation
-* Proper HTTP status codes
-* Error handling
-* Modular project structure
-
-### Part 02
-
-* Search deals
-* Filter deals by budget
-* Sort deals by price
-* Recently viewed deals
-* Logging support
 * Query parameter validation
-* Reusable business logic
+* Error handling
+* Activity logging
+* Modular project structure
+* SQLite database integration using SQLAlchemy
+
 
 ---
 
@@ -327,6 +322,43 @@ or
 ```
 
 ---
+
+### cURL Example
+
+```bash
+curl -X POST http://127.0.0.1:5000/deals \
+-H "Content-Type: application/json" \
+-d '{
+  "destination": "Dubai",
+  "price": 5000,
+  "platform": "Booking",
+  "rating": 4.5,
+  "travel_type": "Luxury"
+}'
+```
+```bash
+curl http://127.0.0.1:5000/deals
+```
+
+```bash
+curl http://127.0.0.1:5000/deals/1
+```
+
+```bash
+curl "http://127.0.0.1:5000/deals/search?destination=dubai"
+```
+
+```bash
+curl "http://127.0.0.1:5000/deals/filter?min_price=1000&max_price=5000"
+```
+
+```bash
+curl "http://127.0.0.1:5000/deals/sort?sort_by=price&order=asc"
+```
+
+```bash
+curl http://127.0.0.1:5000/deals/recent
+```
 
 ### Search Deals
 
