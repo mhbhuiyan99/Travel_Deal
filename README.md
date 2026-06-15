@@ -481,12 +481,3 @@ Example Status Codes:
 500 Internal Server Error
 ```
 
----
-
-## Author
-
-Mojammel Haque Bhuiyan
-
-Software Engineering Intern Assignment
-
-W3 Engineers Ltd
