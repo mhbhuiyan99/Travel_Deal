@@ -199,6 +199,34 @@ http://127.0.0.1:5000
 
 ---
 
+## API Summary
+
+| Method | Endpoint | Description |
+|----------|----------|----------|
+| POST | /deals | Create a travel deal |
+| GET | /deals | Get all travel deals |
+| GET | /deals/<id> | Get a single travel deal |
+| GET | /deals/search | Search deals |
+| GET | /deals/filter | Filter deals by price |
+| GET | /deals/sort | Sort deals by price |
+| GET | /deals/recent | Get recently viewed deals |
+
+---
+
+## Postman Collection
+
+**Collection File:** [Travel Deal.postman_collection.json](https://github.com/mhbhuiyan99/Travel_Deal/blob/main/Travel%20Deal.postman_collection.json)
+
+### Import into Postman
+
+1. Open Postman.
+2. Click **Import**.
+3. Select **Upload Files**.
+4. Choose the downloaded collection file.
+5. Import and start testing the APIs.
+
+---
+
 ## API Endpoints
 
 ### Health Check
