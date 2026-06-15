@@ -337,11 +337,11 @@ curl -X POST http://127.0.0.1:5000/deals \
 }'
 ```
 ```bash
-curl http://127.0.0.1:5000/deals
+curl "http://127.0.0.1:5000/deals"
 ```
 
 ```bash
-curl http://127.0.0.1:5000/deals/1
+curl "http://127.0.0.1:5000/deals/1"
 ```
 
 ```bash
@@ -357,7 +357,7 @@ curl "http://127.0.0.1:5000/deals/sort?sort_by=price&order=asc"
 ```
 
 ```bash
-curl http://127.0.0.1:5000/deals/recent
+curl "http://127.0.0.1:5000/deals/recent"
 ```
 
 ### Search Deals
