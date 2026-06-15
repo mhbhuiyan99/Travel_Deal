@@ -52,3 +52,9 @@ def validate_deal(data):
         )
 
     return None
+
+def validate_search(filters):
+    if not any(filters.values()):
+        return "At least one search parameter is required."
+    
+    return None

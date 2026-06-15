@@ -1,9 +1,16 @@
-.venv/
-venv
-
+# Python
 __pycache__/
 *.pyc
 
-travel_deals.db
+# Virtual environment
+.venv/
+venv/
+
+# SQLite
 *.db
-.DS_Store
+
+# VS Code
+.vscode/
+
+# Environment variables
+.env

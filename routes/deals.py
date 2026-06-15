@@ -1,13 +1,19 @@
 from flask import Blueprint
 from flask import request
 from flask import jsonify
+import logging
 
-from utils.validators import validate_deal
+
+from utils.validators import (
+    validate_deal,
+    validate_search
+)
 
 from services.travel_service import (
     create_deal, 
     get_all_deals,
-    get_deal_by_id
+    get_deal_by_id,
+    search_by
 )
 
 
@@ -61,3 +67,28 @@ def get_deal(deal_id):
     return jsonify(
         deal
     ), 200
+
+@deals_bp.route("/search", methods=["GET"])
+def search_deals():
+    filters = {
+        "destination": request.args.get("destination"),
+        "platform": request.args.get("platform"),
+        "travel_type": request.args.get("travel_type")
+    }
+
+    error = validate_search(filters)
+    if error:
+        logging.Warning("Search request without parameters")
+
+        return jsonify({
+            "error": error
+        }), 400
+
+    logging.info(f"Search request received: {filters}")
+
+    deals = search_by(filters)
+
+    return jsonify({
+        "count": len(deals),
+        "data": deals
+    }), 200
