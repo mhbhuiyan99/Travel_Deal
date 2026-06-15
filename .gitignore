@@ -8,6 +8,7 @@ venv/
 
 # SQLite
 *.db
+instance/
 
 # VS Code
 .vscode/

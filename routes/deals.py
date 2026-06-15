@@ -6,14 +6,16 @@ import logging
 
 from utils.validators import (
     validate_deal,
-    validate_search
+    validate_search,
+    validate_filter
 )
 
 from services.travel_service import (
     create_deal, 
     get_all_deals,
     get_deal_by_id,
-    search_by
+    search_by,
+    filter_by_price
 )
 
 
@@ -87,6 +89,25 @@ def search_deals():
     logging.info(f"Search request received: {filters}")
 
     deals = search_by(filters)
+
+    return jsonify({
+        "count": len(deals),
+        "data": deals
+    }), 200
+
+@deals_bp.route("/filter", methods=["GET"])
+def filter_deals():
+    min_price = request.args.get("min_price")
+    max_price = request.args.get("max_price");
+
+    error = validate_filter(min_price, max_price)
+
+    if error:
+        return jsonify({
+            "error": error
+        }), 400
+
+    deals = filter_by_price(min_price, max_price)
 
     return jsonify({
         "count": len(deals),

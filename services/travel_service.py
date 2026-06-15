@@ -48,3 +48,19 @@ def search_by(filters):
 
     return [deal.to_dict() for deal in result]
 
+def filter_by_price(min_price = None, max_price = None):
+    stmt = select(TravelDeal)
+
+    if min_price is not None:
+        stmt = stmt.where(
+            TravelDeal.price >= float(min_price)
+        )
+
+    if max_price is not None:
+        stmt = stmt.where(
+            TravelDeal.price <= float(max_price)
+        )
+
+    deals = db.session.execute(stmt).scalars().all()
+
+    return [deal.to_dict() for deal in deals]

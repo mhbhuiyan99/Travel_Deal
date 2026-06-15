@@ -58,3 +58,23 @@ def validate_search(filters):
         return "At least one search parameter is required."
     
     return None
+
+def validate_filter(min_price, max_price):
+
+    try:
+        min_value = float(min_price) if min_price is not None else None
+        max_value = float(max_price) if max_price is not None else None
+    except ValueError:
+        return "Price values must be valid numbers"
+
+    if min_value is not None and min_value < 0:
+        return "Minimum price cannot be negative"
+
+    if (
+        min_value is not None and
+        max_value is not None and
+        max_value < min_value
+    ):
+        return "Maximum price cannot be smaller than minimum price"
+
+    return None
