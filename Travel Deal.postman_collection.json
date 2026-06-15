@@ -92,6 +92,107 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Search",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Filter By Price",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/deals/filter?min_price=5000&max_price=1000",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"deals",
+						"filter"
+					],
+					"query": [
+						{
+							"key": "min_price",
+							"value": "5000"
+						},
+						{
+							"key": "max_price",
+							"value": "1000"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sorted",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/deals/sort?sort_by=rating",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"",
+						"deals",
+						"sort"
+					],
+					"query": [
+						{
+							"key": "sort_by",
+							"value": "rating"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recent",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"destination\": \"Dubai\",\n\"price\": 5000,\n\"platform\": \"Booking\",\n\"rating\": 4.5,\n\"travel_type\": \"Luxury\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/deals/recent",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"deals",
+						"recent"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

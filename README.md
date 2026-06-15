@@ -1,95 +1,225 @@
 # Travel Deal Management System
 
-A Flask-based RESTful API backend built for managing travel deals. This system uses a modular project structure separating data layers, routes, business logic, and input utilities.
+A RESTful API built with **Python**, **Flask**, **SQLAlchemy**, and **SQLite** for managing travel deals. The application supports creating travel deals, viewing deals, searching, filtering, sorting, tracking recently viewed deals, input validation, and logging.
 
 ---
 
-## Prerequisites
+## Features
 
-Make sure you have Python 3 installed on your computer.
+### Part 01
+
+* Add a travel deal
+* Get all travel deals
+* Get a single travel deal
+* Input validation
+* Proper HTTP status codes
+* Error handling
+* Modular project structure
+
+### Part 02
+
+* Search deals
+* Filter deals by budget
+* Sort deals by price
+* Recently viewed deals
+* Logging support
+* Query parameter validation
+* Reusable business logic
 
 ---
 
-## How to Setup and Run
+## Technology Stack
 
-Follow these instructions in your computer terminal or command prompt to run the project.
+* Python 3
+* Flask
+* Flask-SQLAlchemy
+* SQLite
+* SQLAlchemy ORM
 
-### 1. Download the Project
+---
 
-Clone the repository and enter the directory:
+## Project Structure
+
+```text
+TRAVEL_DEAL/
+├── database/
+│   ├── db.py
+│   └── models.py
+│
+├── routes/
+│   └── deals.py
+│
+├── services/
+│   ├── travel_service.py
+│   └── recent_service.py
+│
+├── utils/
+│   └── validators.py
+│
+├── instance/
+│   └── travel_deal.db
+│
+├── app.py
+├── config.py
+├── requirements.txt
+├── README.md
+├── app.log
+└── .gitignore
+```
+
+---
+
+## Architecture
+
+The application follows a layered architecture:
+
+```text
+Request
+   ↓
+Routes
+   ↓
+Validators
+   ↓
+Services
+   ↓
+Database
+   ↓
+Response
+```
+
+### Responsibilities
+
+#### Routes
+
+Responsible for:
+
+* Receiving requests
+* Reading request data
+* Calling validation functions
+* Calling service functions
+* Returning JSON responses
+
+#### Validators
+
+Responsible for:
+
+* Input validation
+* Query parameter validation
+* Reusable validation logic
+
+#### Services
+
+Responsible for:
+
+* Business logic
+* Database operations
+* Query construction
+
+#### Database
+
+Responsible for:
+
+* Models
+* Database connection
+* Data persistence
+
+---
+
+## Database Schema
+
+### TravelDeal
+
+| Field       | Type    |
+| ----------- | ------- |
+| id          | Integer |
+| destination | String  |
+| price       | Float   |
+| platform    | String  |
+| rating      | Float   |
+| travel_type | String  |
+
+### RecentView
+
+| Field     | Type     |
+| --------- | -------- |
+| id        | Integer  |
+| deal_id   | Integer  |
+| viewed_at | DateTime |
+
+---
+
+## Installation
+
+### Clone Repository
 
 ```bash
 git clone https://github.com/mhbhuiyan99/Travel_Deal.git
-cd Travel_Deal
-
+cd TRAVEL_DEAL
 ```
 
-### 2. Create a Virtual Environment
-
-Isolate the dependencies for this project:
+### Create Virtual Environment
 
 ```bash
-python3 -m venv .venv
-
+python -m venv .venv
 ```
 
-### 3. Activate the Virtual Environment
+### Activate Virtual Environment
 
-Activate the environment depending on your operating system:
+Linux/Mac:
 
-* **Linux / macOS:**
 ```bash
 source .venv/bin/activate
-
 ```
 
+Windows:
 
-* **Windows (Command Prompt):**
-```cmd
+```bash
 .venv\Scripts\activate
-
 ```
 
-
-
-### 4. Install Dependencies
-
-Install all required libraries listed in the requirements file:
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
-
 ```
 
-### 5. Start the Server
+---
 
-Run the application starter script:
+## Running the Application
 
 ```bash
-python3 app.py
-
+python app.py
 ```
 
-The application will start running locally at `http://127.0.0.1:5000/`. The database file will initialize automatically upon startup.
+Server will start at:
+
+```text
+http://127.0.0.1:5000
+```
 
 ---
 
 ## API Endpoints
 
-### 1. Add Travel Deal
+### Health Check
 
-* 
-**Method:** `POST` 
+#### GET /
 
+Response
 
-* 
-**URL:** `http://127.0.0.1:5000/deals` 
+```json
+{
+  "message": "Travel Deal API is running"
+}
+```
 
+---
 
-* 
-**Request JSON Body:** 
+### Add Travel Deal
 
+#### POST /deals
 
+Request Body
 
 ```json
 {
@@ -99,60 +229,236 @@ The application will start running locally at `http://127.0.0.1:5000/`. The data
   "rating": 4.5,
   "travel_type": "Luxury"
 }
-
 ```
 
-### 2. Get All Deals
+Success Response
 
-* 
-**Method:** `GET` 
+```json
+{
+  "message": "Deal created",
+  "deal": {
+    "id": 1,
+    "destination": "Dubai",
+    "price": 5000,
+    "platform": "Booking",
+    "rating": 4.5,
+    "travel_type": "Luxury"
+  }
+}
+```
 
+Status Code
 
-* 
-**URL:** `http://127.0.0.1:5000/deals` 
-
-
-
-### 3. Get Single Deal
-
-* 
-**Method:** `GET` 
-
-
-* 
-**URL:** `http://127.0.0.1:5000/deals/<id>` 
-*(Replace `<id>` with the numerical ID of the deal, such as `1`)*
-
-
+```text
+201 Created
+```
 
 ---
 
-## Postman Collection
+### Get All Deals
 
-**Collection File:** [Travel Deal Management API.postman_collection.json](https://github.com/mhbhuiyan99/Travel_Deal/blob/main/Travel%20Deal.postman_collection.json)
+#### GET /deals
 
-### Import into Postman
-1. Open Postman.
-2. Click Import.
-3. Select Upload Files.
-4. Choose the downloaded collection file.
-5. Import and start testing the APIs.
+Response
 
-
-## Project Structure
+```json
+{
+  "count": 2,
+  "data": []
+}
 ```
-project/
-├── app.py               # Application Factory & entry point
-├── config.py            # Environment & app configuration constants
-├── database/
-│   ├── db.py            # SQLAlchemy core engine initialization
-│   └── models.py        # Database declarative schemas (TravelDeal model)
-├── routes/
-│   └── deals.py         # Blueprint endpoint route definitions
-├── services/
-│   └── travel_service.py # Pure isolated business & database transactions logic
-├── utils/
-│   └── validators.py    # Type-safe request input constraints validation
-├── requirements.txt     # Locked production dependencies
-└── README.md            # System installation and architectural blueprint
+
+Status Code
+
+```text
+200 OK
 ```
+
+---
+
+### Get Single Deal
+
+#### GET /deals/<id>
+
+Example
+
+```http
+GET /deals/1
+```
+
+Status Code
+
+```text
+200 OK
+```
+
+or
+
+```text
+404 Not Found
+```
+
+---
+
+### Search Deals
+
+#### GET /deals/search
+
+Query Parameters
+
+| Parameter   | Description           |
+| ----------- | --------------------- |
+| destination | Search by destination |
+| platform    | Search by platform    |
+| travel_type | Search by travel type |
+
+Example
+
+```http
+GET /deals/search?destination=dubai
+```
+
+Features
+
+* Partial search
+* Case-insensitive search
+
+---
+
+### Filter Deals
+
+#### GET /deals/filter
+
+Query Parameters
+
+| Parameter | Description   |
+| --------- | ------------- |
+| min_price | Minimum price |
+| max_price | Maximum price |
+
+Example
+
+```http
+GET /deals/filter?min_price=1000&max_price=5000
+```
+
+---
+
+### Sort Deals
+
+#### GET /deals/sort
+
+Query Parameters
+
+| Parameter | Description |
+| --------- | ----------- |
+| sort_by   | price       |
+| order     | asc / desc  |
+
+Example
+
+```http
+GET /deals/sort?sort_by=price&order=asc
+```
+
+---
+
+### Recently Viewed Deals
+
+#### GET /deals/recent
+
+Returns recently accessed travel deals.
+
+Example
+
+```http
+GET /deals/recent
+```
+
+---
+
+## Validation Rules
+
+### Travel Deal Validation
+
+* destination cannot be empty
+* platform cannot be empty
+* travel_type cannot be empty
+* price must be greater than 0
+* rating must be between 0 and 5
+
+### Filter Validation
+
+* min_price cannot be negative
+* max_price cannot be smaller than min_price
+* price values must be valid numbers
+
+### Sort Validation
+
+* sort_by must be price
+* order must be asc or desc
+
+### Search Validation
+
+* At least one search parameter is required
+
+---
+
+## Logging
+
+Application logs are stored in:
+
+```text
+app.log
+```
+
+The following activities are logged:
+
+* Successful search requests
+* Successful filter requests
+* Successful sort requests
+* Invalid requests
+* Database errors
+* Failed operations
+
+Logging levels used:
+
+```python
+logging.info()
+logging.warning()
+logging.error()
+```
+
+---
+
+## Error Handling
+
+The application returns meaningful JSON error responses.
+
+Example:
+
+```json
+{
+  "error": "Price must be greater than 0"
+}
+```
+
+Example Status Codes:
+
+```text
+200 OK
+201 Created
+400 Bad Request
+404 Not Found
+500 Internal Server Error
+```
+
+---
+
+## Author
+
+Mojammel Haque Bhuiyan
+
+Software Engineering Intern Assignment
+
+W3 Engineers Ltd
