@@ -5,6 +5,16 @@ from sqlalchemy import asc
 from sqlalchemy import desc
 
 def create_deal(data):
+    """
+    Create a new travel deal and save it to the database.
+    Args:
+        data (dict): Travel deal information received from the request.
+    Returns:
+        dict: The newly created travel deal as a dictionary.
+    Raises:
+        RuntimeError: If database insertion fails.
+    """
+
     deal = TravelDeal(
         destination = data["destination"],
         price = data["price"],
@@ -16,18 +26,33 @@ def create_deal(data):
     try:
         db.session.add(deal)
         db.session.commit()
-        return deal
+        return deal.to_dict()
     except Exception as e:
         db.session.rollback()
         raise RuntimeError("Database insertion failed") from e
   
 
 def get_all_deals():
+    """
+    Retrieve all travel deals from the database.
+    Returns:
+        list: A list of travel deals as dictionaries.
+    """
+
     deals = TravelDeal.query.all()
     return [deal.to_dict() for deal in deals]
 
 
 def get_deal_by_id(deal_id):
+    """
+    Retrieve a travel deal by its ID.
+    Args:
+        deal_id (int): The ID of the travel deal.
+    Returns:
+        dict | None:
+            Travel deal as a dictionary if found,
+            otherwise None.
+    """
     deal = TravelDeal.query.get(deal_id)
     if not deal:
         return None
@@ -35,6 +60,16 @@ def get_deal_by_id(deal_id):
 
 
 def search_by(filters):
+    """
+    Search travel deals using optional filters.
+    Supports partial and case-insensitive matching.
+    Args:
+        filters (dict): Search criteria containing
+            destination, platform, and/or travel_type.
+    Returns:
+        list: A list of matching travel deals as dictionaries.
+    """
+
     query = select(TravelDeal)
 
     if filters.get('destination'):
@@ -50,7 +85,19 @@ def search_by(filters):
 
     return [deal.to_dict() for deal in result]
 
+
 def filter_by_price(min_price = None, max_price = None):
+    """
+    Filter travel deals by price range.
+    Args:
+        min_price (float | None):
+            Minimum allowed price.
+        max_price (float | None):
+            Maximum allowed price.
+    Returns:
+        list: A list of matching travel deals as dictionaries.
+    """
+
     query = select(TravelDeal)
 
     if min_price is not None:
@@ -67,7 +114,19 @@ def filter_by_price(min_price = None, max_price = None):
 
     return [deal.to_dict() for deal in deals]
 
+
 def get_sorted_deals(order):
+    """
+    Sort travel deals by price.
+    Args:
+        order (str):
+            Sorting order.
+            'asc' for ascending,
+            'desc' for descending.
+    Returns:
+        list: A list of sorted travel deals as dictionaries.
+    """
+
     query = select(TravelDeal)
 
     if order.lower() == 'desc':

@@ -41,14 +41,7 @@ def add_deals():
 
     return jsonify({
         "message": "Deal created",
-        "deal": {
-            "id": deal.id,
-            "destination": deal.destination,
-            "price": deal.price,
-            "platform": deal.platform,
-            "rating": deal.rating,
-            "travel_type": deal.travel_type
-        }
+        "deal": deal
     }), 201
 
 @deals_bp.route("/", methods=["GET"])
