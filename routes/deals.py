@@ -4,6 +4,7 @@ from flask import jsonify
 import logging
 
 
+
 from utils.validators import (
     validate_deal,
     validate_search,
@@ -19,7 +20,8 @@ from services.travel_service import (
     filter_by_price,
     get_sorted_deals,
     update_deal_by_id,
-    delete_deal_by_id
+    delete_deal_by_id,
+    get_most_viewed
 )
 
 from services.recent_service import ( 
@@ -182,7 +184,7 @@ def update_deal(deal_id):
     deal = update_deal_by_id(deal_id, data)
 
     if deal is None:
-        return json({
+        return jsonify({
             "error": "Deal not found"
         }), 404
     
@@ -205,4 +207,18 @@ def delete_deal(deal_id):
         "message": "Deal deleted successfully"
     }), 200
 
+
+@deals_bp.route("/popular", methods=["GET"])
+def most_viewed():
+    deals_limit = 10
+    deals = get_most_viewed(deals_limit)
+
+    logging.info(
+        f"Get popular deals request: limit={deals_limit}"
+    )
+
+    return jsonify({
+        "count": len(deals),
+        "popular deals": deals
+    })
 

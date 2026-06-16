@@ -33,6 +33,12 @@ class TravelDeal(db.Model):
         nullable = False
     )
 
+    view_count = db.Column(
+        db.Integer,
+        default = 0,
+        nullable = False
+    )
+
     def to_dict(self):
         return {
             "id": self.id,

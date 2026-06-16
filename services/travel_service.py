@@ -33,7 +33,9 @@ def create_deal(data):
             f"Database insertion failed: {e}"
         )
         db.session.rollback()
-        raise RuntimeError("Database insertion failed") from e
+        raise RuntimeError(
+            "Database insertion failed"
+        ) from e
   
 
 def get_all_deals():
@@ -60,8 +62,20 @@ def get_deal_by_id(deal_id):
     deal = TravelDeal.query.get(deal_id)
     if not deal:
         return None
-    return deal.to_dict()
-
+    
+    deal.view_count += 1
+    try:
+        db.session.commit()
+        return deal.to_dict()
+    except Exception as e:
+        loggin.error(
+            f"Database updation failed for view count"
+        )
+        db.rollback()
+        raise RuntimeError(
+            "Update view count failed"
+        )
+    
 
 def search_by(filters):
     """
@@ -176,6 +190,7 @@ def update_deal_by_id(deal_id, data):
             "Database update failed"
         ) from e
 
+
 def delete_deal_by_id(deal_id):
     """
     Delete deal by id.
@@ -206,4 +221,30 @@ def delete_deal_by_id(deal_id):
         ) from e
 
 
+def get_most_viewed(limit_count=10):
+    """
+    Get the most viewed travel deals.
+    Args:
+        limit_count (int): Maximum number of deals to return.
+    Returns:
+        deal (dict): Most viewed deals ordered by view count.
+    """
 
+    query = (
+        select(TravelDeal)
+        .order_by(desc(TravelDeal.view_count))
+        .limit(limit_count)
+    )
+
+    try:
+        deals = db.session.execute(query).scalars().all()
+        return [deal.to_dict() for deal in deals]
+        
+    except Exception as e:
+        logging.error(
+            f"Database selection failed: {e}"
+        )
+        db.session.rollback()
+        raise RuntimeError(
+            "Database selection failed"
+        ) from e
