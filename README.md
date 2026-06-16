@@ -1,35 +1,28 @@
-# Travel Deal Management System
-
-A RESTful API built with **Python**, **Flask**, **SQLAlchemy**, and **SQLite** for managing travel deals. The application supports creating travel deals, viewing deals, searching, filtering, sorting, tracking recently viewed deals, input validation, and logging.
-
----
+# Changes Required for README (Part 03)
 
 ## Features
+
+Replace the Features section with:
 
 * Create travel deals
 * View all travel deals
 * View a single travel deal
+* Update travel deals
+* Delete travel deals
 * Search deals by destination, platform, or travel type
 * Filter deals using minimum and maximum price
 * Sort deals by price (ascending or descending)
 * Track recently viewed deals
+* Track most viewed deals
+* API usage statistics
+* Search statistics
+* View count tracking
 * Input validation
 * Query parameter validation
 * Error handling
 * Activity logging
 * Modular project structure
 * SQLite database integration using SQLAlchemy
-
-
----
-
-## Technology Stack
-
-* Python 3
-* Flask
-* Flask-SQLAlchemy
-* SQLite
-* SQLAlchemy ORM
 
 ---
 
@@ -42,14 +35,17 @@ TRAVEL_DEAL/
 │   └── models.py
 │
 ├── routes/
-│   └── deals.py
+│   ├── deals.py
+│   └── stats.py
 │
 ├── services/
 │   ├── travel_service.py
-│   └── recent_service.py
+│   ├── recent_service.py
+│   └── stats_service.py
 │
 ├── utils/
-│   └── validators.py
+│   ├── validators.py
+│   └── responses.py
 │
 ├── instance/
 │   └── travel_deal.db
@@ -61,62 +57,6 @@ TRAVEL_DEAL/
 ├── app.log
 └── .gitignore
 ```
-
----
-
-## Architecture
-
-The application follows a layered architecture:
-
-```text
-Request
-   ↓
-Routes
-   ↓
-Validators
-   ↓
-Services
-   ↓
-Database
-   ↓
-Response
-```
-
-### Responsibilities
-
-#### Routes
-
-Responsible for:
-
-* Receiving requests
-* Reading request data
-* Calling validation functions
-* Calling service functions
-* Returning JSON responses
-
-#### Validators
-
-Responsible for:
-
-* Input validation
-* Query parameter validation
-* Reusable validation logic
-
-#### Services
-
-Responsible for:
-
-* Business logic
-* Database operations
-* Query construction
-
-#### Database
-
-Responsible for:
-
-* Models
-* Database connection
-* Data persistence
 
 ---
 
@@ -132,6 +72,7 @@ Responsible for:
 | platform    | String  |
 | rating      | Float   |
 | travel_type | String  |
+| view_count  | Integer |
 
 ### RecentView
 
@@ -141,125 +82,128 @@ Responsible for:
 | deal_id   | Integer  |
 | viewed_at | DateTime |
 
----
+### ApiStats
 
-## Installation
+| Field               | Type    |
+| ------------------- | ------- |
+| id                  | Integer |
+| total_requests      | Integer |
+| successful_requests | Integer |
+| failed_requests     | Integer |
 
-### Clone Repository
+### SearchStats
 
-```bash
-git clone https://github.com/mhbhuiyan99/Travel_Deal.git
-cd TRAVEL_DEAL
-```
-
-### Create Virtual Environment
-
-```bash
-python -m venv .venv
-```
-
-### Activate Virtual Environment
-
-Linux/Mac:
-
-```bash
-source .venv/bin/activate
-```
-
-Windows:
-
-```bash
-.venv\Scripts\activate
-```
-
-### Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## Running the Application
-
-```bash
-python3 app.py
-```
-
-Server will start at:
-
-```text
-http://127.0.0.1:5000
-```
+| Field        | Type    |
+| ------------ | ------- |
+| id           | Integer |
+| destination  | String  |
+| search_count | Integer |
 
 ---
 
 ## API Summary
 
-| Method | Endpoint | Description |
-|----------|----------|----------|
-| POST | /deals | Create a travel deal |
-| GET | /deals | Get all travel deals |
-| GET | /deals/<id> | Get a single travel deal |
-| GET | /deals/search | Search deals |
-| GET | /deals/filter | Filter deals by price |
-| GET | /deals/sort | Sort deals by price |
-| GET | /deals/recent | Get recently viewed deals |
+| Method | Endpoint       | Description              |
+| ------ | -------------- | ------------------------ |
+| POST   | /deals         | Create a travel deal     |
+| GET    | /deals         | Get all travel deals     |
+| GET    | /deals/<id>    | Get a single travel deal |
+| PUT    | /deals/<id>    | Update a travel deal     |
+| DELETE | /deals/<id>    | Delete a travel deal     |
+| GET    | /deals/search  | Search deals             |
+| GET    | /deals/filter  | Filter deals             |
+| GET    | /deals/sort    | Sort deals               |
+| GET    | /deals/recent  | Recently viewed deals    |
+| GET    | /deals/popular | Most viewed deals        |
+| GET    | /stats         | API statistics           |
 
 ---
 
-## Postman Collection
+## Popular Deals
 
-**Collection File:** [Travel Deal.postman_collection.json](https://github.com/mhbhuiyan99/Travel_Deal/blob/main/Travel%20Deal.postman_collection.json)
+### GET /deals/popular
 
-### Import into Postman
+Returns the most viewed travel deals.
 
-1. Open Postman.
-2. Click **Import**.
-3. Select **Upload Files**.
-4. Choose the downloaded collection file.
-5. Import and start testing the APIs.
+Example:
 
----
+```http
+GET /deals/popular
+```
 
-## API Endpoints
+Status Code:
 
-### Health Check
-
-#### GET /
-
-Response
-
-```json
-{
-  "message": "Travel Deal API is running"
-}
+```text
+200 OK
 ```
 
 ---
 
-### Add Travel Deal
+## Update Travel Deal
 
-#### POST /deals
+### PUT /deals/<id>
 
-Request Body
+Example:
+
+```http
+PUT /deals/1
+```
+
+Request Body:
 
 ```json
 {
   "destination": "Dubai",
-  "price": 5000,
+  "price": 6000,
   "platform": "Booking",
-  "rating": 4.5,
+  "rating": 4.8,
   "travel_type": "Luxury"
 }
 ```
 
-Success Response
+Status Codes:
+
+```text
+200 OK
+404 Not Found
+```
+
+---
+
+## Delete Travel Deal
+
+### DELETE /deals/<id>
+
+Example:
+
+```http
+DELETE /deals/1
+```
+
+Status Codes:
+
+```text
+200 OK
+404 Not Found
+```
+
+---
+
+## API Statistics
+
+### GET /stats
+
+Returns application usage statistics.
+
+Response:
 
 ```json
 {
-  "message": "Deal created",
-  "deal": {
+  "total_requests": 50,
+  "successful_requests": 45,
+  "failed_requests": 5,
+  "most_searched_destination": "dubai",
+  "most_viewed_deal": {
     "id": 1,
     "destination": "Dubai",
     "price": 5000,
@@ -270,198 +214,45 @@ Success Response
 }
 ```
 
-Status Code
-
-```text
-201 Created
-```
-
 ---
 
-### Get All Deals
-
-#### GET /deals
-
-Response
-
-```json
-{
-  "count": 2,
-  "data": []
-}
-```
-
-Status Code
-
-```text
-200 OK
-```
-
----
-
-### Get Single Deal
-
-#### GET /deals/<id>
-
-Example
-
-```http
-GET /deals/1
-```
-
-Status Code
-
-```text
-200 OK
-```
-
-or
-
-```text
-404 Not Found
-```
-
----
-
-### Search Deals
-
-#### GET /deals/search
-
-Query Parameters
-
-| Parameter   | Description           |
-| ----------- | --------------------- |
-| destination | Search by destination |
-| platform    | Search by platform    |
-| travel_type | Search by travel type |
-
-Example
-
-```http
-GET /deals/search?destination=dubai
-```
-
-Features
-
-* Partial search
-* Case-insensitive search
-
----
-
-### Filter Deals
-
-#### GET /deals/filter
-
-Query Parameters
-
-| Parameter | Description   |
-| --------- | ------------- |
-| min_price | Minimum price |
-| max_price | Maximum price |
-
-Example
-
-```http
-GET /deals/filter?min_price=1000&max_price=5000
-```
-
----
-
-### Sort Deals
-
-#### GET /deals/sort
-
-Query Parameters
-
-| Parameter | Description |
-| --------- | ----------- |
-| sort_by   | price       |
-| order     | asc / desc  |
-
-Example
-
-```http
-GET /deals/sort?sort_by=price&order=asc
-```
-
----
-
-### Recently Viewed Deals
-
-#### GET /deals/recent
-
-Returns recently accessed travel deals.
-
-Example
-
-```http
-GET /deals/recent
-```
-
----
-
-### cURL Example
+## cURL Examples
 
 ```bash
-curl -X POST http://127.0.0.1:5000/deals \
+curl -X PUT http://127.0.0.1:5000/deals/1 \
 -H "Content-Type: application/json" \
 -d '{
   "destination": "Dubai",
-  "price": 5000,
+  "price": 6000,
   "platform": "Booking",
-  "rating": 4.5,
+  "rating": 4.8,
   "travel_type": "Luxury"
 }'
 ```
+
 ```bash
-curl "http://127.0.0.1:5000/deals
+curl -X DELETE http://127.0.0.1:5000/deals/1
 ```
 
 ```bash
-curl "http://127.0.0.1:5000/deals/1"
+curl "http://127.0.0.1:5000/deals/popular"
 ```
 
 ```bash
-curl "http://127.0.0.1:5000/deals/search?destination=dubai"
+curl "http://127.0.0.1:5000/stats"
 ```
 
-```bash
-curl "http://127.0.0.1:5000/deals/filter?min_price=1000&max_price=5000"
-```
-
-```bash
-curl "http://127.0.0.1:5000/deals/sort?sort_by=price&order=asc"
-```
-
-```bash
-curl "http://127.0.0.1:5000/deals/recent"
-```
 ---
 
-## Validation Rules
+## Statistics Tracking
 
-### Travel Deal Validation
+The application tracks:
 
-* destination cannot be empty
-* platform cannot be empty
-* travel_type cannot be empty
-* price must be greater than 0
-* rating must be between 0 and 5
-
-### Filter Validation
-
-* min_price cannot be negative
-* max_price cannot be smaller than min_price
-* price values must be valid numbers
-
-### Sort Validation
-
-* sort_by must be price
-* order must be asc or desc
-
-### Search Validation
-
-* At least one search parameter is required
+* Total API requests
+* Successful API requests
+* Failed API requests
+* Most searched destination
+* Most viewed travel deal
 
 ---
 
@@ -473,44 +264,23 @@ Application logs are stored in:
 app.log
 ```
 
-The following activities are logged:
+Tracked activities:
 
-* Successful search requests
-* Successful filter requests
-* Successful sort requests
-* Invalid requests
-* Database errors
+* Travel deal creation
+* Travel deal updates
+* Travel deal deletion
+* Search requests
+* Filter requests
+* Sort requests
+* Statistics requests
+* Validation failures
+* Database failures
 * Failed operations
 
-Logging levels used:
+Logging methods:
 
 ```python
 logging.info()
 logging.warning()
 logging.error()
 ```
-
----
-
-## Error Handling
-
-The application returns meaningful JSON error responses.
-
-Example:
-
-```json
-{
-  "error": "Price must be greater than 0"
-}
-```
-
-Example Status Codes:
-
-```text
-200 OK
-201 Created
-400 Bad Request
-404 Not Found
-500 Internal Server Error
-```
-
