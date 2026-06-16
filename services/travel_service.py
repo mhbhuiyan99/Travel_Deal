@@ -68,10 +68,10 @@ def get_deal_by_id(deal_id):
         db.session.commit()
         return deal.to_dict()
     except Exception as e:
-        loggin.error(
+        logging.error(
             f"Database updation failed for view count"
         )
-        db.rollback()
+        db.session.rollback()
         raise RuntimeError(
             "Update view count failed"
         )
@@ -182,7 +182,7 @@ def update_deal_by_id(deal_id, data):
         db.session.commit()
         return deal.to_dict()
     except Exception as e:
-        loggin.error(
+        logging.error(
             f"Database update failed: {e}"
         )
         db.session.rollback()
@@ -212,7 +212,7 @@ def delete_deal_by_id(deal_id):
         db.session.commit()
         return True
     except Exception as e:
-        loggin.error(
+        logging.error(
             f"Database deletion failed: {e}"
         )
         db.session.rollback()
@@ -221,7 +221,7 @@ def delete_deal_by_id(deal_id):
         ) from e
 
 
-def get_most_viewed(limit_count=10):
+def get_most_viewed_deals(limit_count=10):
     """
     Get the most viewed travel deals.
     Args:

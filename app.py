@@ -2,6 +2,7 @@ from flask import Flask
 from config import Config
 from database.db import db
 from routes.deals import deals_bp
+from routes.stats import stats_bp
 from database.models import TravelDeal
 import logging
 
@@ -28,6 +29,10 @@ def create_app():
     app.register_blueprint(
         deals_bp,
         url_prefix="/deals"
+    )
+
+    app.register_blueprint(
+        stats_bp
     )
 
 
