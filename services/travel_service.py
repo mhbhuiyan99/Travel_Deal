@@ -141,3 +141,36 @@ def get_sorted_deals(order):
     deals = db.session.execute(query).scalars().all()
 
     return [deal.to_dict() for deal in deals]
+
+
+def update_deal_by_id(deal_id, data):
+    """
+    Update travel deals by id.
+    Args:
+        deal_id (int): The ID of travel deal.
+        data (dict): Travel deal information received from the request.
+    Returns:
+        dict: The updated travel deal as a dictionary.
+
+    """
+    deal = TravelDeal.query.get(deal_id)
+
+    if not deal:
+        return None
+
+    deal.destination = data["destination"]
+    deal.price = data["price"]
+    deal.platform = data["platform"]
+    deal.rating = data["rating"]
+    deal.travel_type = data["travel_type"]
+
+    try:
+        db.session.commit()
+        return deal.to_dict()
+    except Exception as e:
+        db.session.rollback()
+        raise RuntimeError(
+            "Database update failed"
+        ) from e
+
+

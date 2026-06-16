@@ -17,7 +17,8 @@ from services.travel_service import (
     get_deal_by_id,
     search_by,
     filter_by_price,
-    get_sorted_deals
+    get_sorted_deals,
+    update_deal_by_id
 )
 
 from services.recent_service import ( 
@@ -37,12 +38,15 @@ def add_deals():
     error = validate_deal(data)
     if error:
         logging.warning(error)
-
         return jsonify({
             "error": error
         }), 400
 
     deal = create_deal(data)
+
+    logging.info(
+        f"Create request: deal={deal}"
+    )
 
     return jsonify({
         "message": "Deal created",
@@ -52,6 +56,11 @@ def add_deals():
 @deals_bp.route("/", methods=["GET"])
 def get_deals():
     deals = get_all_deals()
+
+    logging.info(
+        f"Get all deals request"
+    )
+
     return jsonify({
         "count": len(deals),
         "data": deals
@@ -65,6 +74,10 @@ def get_deal(deal_id):
         return jsonify({
             "error": "Deal not found"
         }), 404
+    
+    logging.info(
+        f"Get deal request: ID={deal_id}"
+    )
 
     add_recent_view(deal_id)
 
@@ -83,7 +96,6 @@ def search_deals():
     error = validate_search(filters)
     if error:
         logging.Warning(error)
-
         return jsonify({
             "error": error
         }), 400
@@ -104,10 +116,8 @@ def filter_deals():
 
     error = validate_filter(min_price, max_price)
 
-
     if error:
         logging.warning(error)
-
         return jsonify({
             "error": error
         }), 400
@@ -132,7 +142,6 @@ def sort_deals():
 
     if error:
         logging.warning(error)
-
         return jsonify({
             "error": error
         }), 400
@@ -150,10 +159,34 @@ def sort_deals():
 
 @deals_bp.route("/recent", methods=["GET"])
 def recent_deals():
-
     deals = get_recent_deals()
 
     return jsonify({
         "count": len(deals),
         "deals": deals
     }), 200
+
+@deals_bp.route("/<int:deal_id>", methods=["PUT"])
+def update_deal(deal_id):
+    data = request.get_json()
+
+    error = validate_deal(data)
+    
+    if error:
+        logging.warning(error)
+        return jsonify({
+            "error": error
+        }), 400
+    
+    deal = update_deal_by_id(deal_id, data)
+
+    if deal is None:
+        return json({
+            "error": "Deal not found"
+        }), 404
+    
+    return jsonify({
+        "message": "Deal updated",
+        "deal": deal
+    }), 200
+
