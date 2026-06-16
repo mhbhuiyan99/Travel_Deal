@@ -193,6 +193,84 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Update Deals",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"destination\": \"Bangladesh\",\n            \"id\": 1,\n            \"platform\": \"Booking\",\n            \"price\": 3000.0,\n            \"rating\": 4.5,\n            \"travel_type\": \"Family\"\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/deals/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"deals",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Deals",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Most viewed",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"destination\": \"Dubai\",\n\"price\": 5000,\n\"platform\": \"Booking\",\n\"rating\": 4.5,\n\"travel_type\": \"Luxury\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/deals/popular",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"deals",
+						"popular"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Stats",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
 		}
 	]
 }
