@@ -18,7 +18,8 @@ from services.travel_service import (
     search_by,
     filter_by_price,
     get_sorted_deals,
-    update_deal_by_id
+    update_deal_by_id,
+    delete_deal_by_id
 )
 
 from services.recent_service import ( 
@@ -189,4 +190,19 @@ def update_deal(deal_id):
         "message": "Deal updated",
         "deal": deal
     }), 200
+
+
+@deals_bp.route("/<int:deal_id>", methods=["DELETE"])
+def delete_deal(deal_id):
+    deleted = delete_deal_by_id(deal_id)
+
+    if not deleted:
+        return jsonify({
+            "error": "Deal not found"
+        }), 404
+    
+    return jsonify({
+        "message": "Deal deleted successfully"
+    }), 200
+
 

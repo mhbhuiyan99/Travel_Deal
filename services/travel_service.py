@@ -168,9 +168,42 @@ def update_deal_by_id(deal_id, data):
         db.session.commit()
         return deal.to_dict()
     except Exception as e:
+        loggin.error(
+            f"Database update failed: {e}"
+        )
         db.session.rollback()
         raise RuntimeError(
             "Database update failed"
         ) from e
+
+def delete_deal_by_id(deal_id):
+    """
+    Delete deal by id.
+    Args:
+        deal_id (int): The ID of travel deal.
+    Returns:
+        bool: 
+            True if the deal was deleted successfully, 
+            False if the deal was not found.
+    """
+
+    deal = TravelDeal.query.get(deal_id)
+
+    if not deal:
+        return None
+    
+    try:
+        db.session.delete(deal)
+        db.session.commit()
+        return True
+    except Exception as e:
+        loggin.error(
+            f"Database deletion failed: {e}"
+        )
+        db.session.rollback()
+        raise RuntimeError(
+            "Database deletion failed"
+        ) from e
+
 
 
