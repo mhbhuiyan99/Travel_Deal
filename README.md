@@ -173,8 +173,8 @@ Responsible for:
 ### Clone Repository
 
 ```bash
-git clone https://github.com/mhbhuiyan99/Travel_Deal.git
-cd Travel_Deal
+git clone https://github.com/mhbhuiyan99/Mojammel_Haque_Bhuiyan-Travel_Deal.git
+cd Mojammel_Haque_Bhuiyan-Travel_Deal
 ```
 
 ### Create Virtual Environment
